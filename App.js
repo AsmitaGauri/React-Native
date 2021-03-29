@@ -1,22 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React,{useState} from 'react';
+import { StyleSheet, Text, View,Button } from 'react-native';
 
 // functional component
 export default function App() {
+  const [name,setName]=useState("asmi");
+  const [person,setPerson]=useState({name:"Asmi",age:"20"});
+
+  const clickHandler=()=>{
+    setName('Asmita');
+    setPerson({name:"Hehehe",age:"100"});
+  }
+
   return (
-    // View acts a lot like divs in html
     <View style={styles.container}>
-      {/* Text must be rendered within the text widget only */}
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Hello,World</Text>
+        <Text>My name is {name}</Text>
+        <Text>His name is {person.name} and his age is {person.age}</Text>
+      <View style={styles.button}>
+        {/* We cannot style a button therefore we need to add view at the top */}
+        {/* We have to add props for button */}
+        <Button title="update" onPress={clickHandler}/>
       </View>
-      {/* If i add a style into View it wont be inherited by the chidren */}
-      {/* There is an exception with Text within Text , they seem to inherit */}
-      <View style={styles.body}>
-        <Text>Hiiiiiii</Text>
-      </View>
-      <Text>Open up App.js to start working on your app!</Text>
+
       <StatusBar style="auto" />
     </View>
   );
@@ -30,15 +35,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  header:{
-    backgroundColor:'yellow',
-    padding:30,
-  },
-  headerText:{
-    fontWeight:'bold'
-  },
-  body:{
-    backgroundColor:"orange",
-    padding:40,
+  button:{
+    marginTop:20
   }
 });
