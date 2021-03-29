@@ -1,35 +1,38 @@
 import { StatusBar } from 'expo-status-bar';
 import React,{useState} from 'react';
-import { StyleSheet, Text, View,TextInput } from 'react-native';
+import { StyleSheet, Text, View,ScrollView } from 'react-native';
 
 // functional component
 export default function App() {
-  const [name,setName]=useState("asmi");
-  const [age,setAge]=useState("30");
-
+  
+ const [people,setPeople]=useState([
+   {name:"A",key:1},
+   {name:"B",key:2},
+   {name:'C',key:3},
+   {name:"D",key:4},
+   {name:"B",key:5},
+   {name:'C',key:6},
+   {name:"D",key:7},
+   {name:"B",key:8},
+   {name:'C',key:9},
+   {name:"D",key:10},
+ ]);
   
   return (
     <View style={styles.container}>
-        <Text>Enter name</Text>
-        <TextInput 
-        style={styles.input}
-        placeholder="e.g. Asmi" 
-        onChangeText={(val)=> setName(val)}/>
-
-        <Text>Enter age</Text>
-        <TextInput 
-        keyboardType='numeric'
-        style={styles.input}
-        placeholder="e.g. 10" 
-        onChangeText={(val)=> setAge(val)}/>
-
-        {/* Lets you write multiple lines */}
-        <TextInput 
-        multiline
-        style={styles.input}
-        placeholder="e.g. Asmi" 
-        />
-       <Text>name: {name}, age:{age}</Text>
+      {/* Look whatever is inside scroll view ,user must be able to scroll */}
+      <ScrollView>
+      {
+          people.map((item)=>{
+            return(
+                <View key={item.key}>
+                  <Text style={styles.item}>{item.name}</Text>
+                </View>
+            )
+          })
+        }
+      </ScrollView>
+        
     </View>
   );
 }
@@ -39,17 +42,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop:10,
+    paddingHorizontal:30
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
-  button:{
-    marginTop:20
-  },
-  input:{
-    borderWidth:1,
-    padding:8,
-    width:200,
-    margin:10,
-    borderColor:'green'
+  item:{
+    padding:20,
+    marginTop:30,
+    backgroundColor:'pink',
+    fontSize:24
   }
 });
