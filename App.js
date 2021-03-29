@@ -1,28 +1,35 @@
 import { StatusBar } from 'expo-status-bar';
 import React,{useState} from 'react';
-import { StyleSheet, Text, View,Button } from 'react-native';
+import { StyleSheet, Text, View,TextInput } from 'react-native';
 
 // functional component
 export default function App() {
   const [name,setName]=useState("asmi");
-  const [person,setPerson]=useState({name:"Asmi",age:"20"});
+  const [age,setAge]=useState("30");
 
-  const clickHandler=()=>{
-    setName('Asmita');
-    setPerson({name:"Hehehe",age:"100"});
-  }
-
+  
   return (
     <View style={styles.container}>
-        <Text>My name is {name}</Text>
-        <Text>His name is {person.name} and his age is {person.age}</Text>
-      <View style={styles.button}>
-        {/* We cannot style a button therefore we need to add view at the top */}
-        {/* We have to add props for button */}
-        <Button title="update" onPress={clickHandler}/>
-      </View>
+        <Text>Enter name</Text>
+        <TextInput 
+        style={styles.input}
+        placeholder="e.g. Asmi" 
+        onChangeText={(val)=> setName(val)}/>
 
-      <StatusBar style="auto" />
+        <Text>Enter age</Text>
+        <TextInput 
+        keyboardType='numeric'
+        style={styles.input}
+        placeholder="e.g. 10" 
+        onChangeText={(val)=> setAge(val)}/>
+
+        {/* Lets you write multiple lines */}
+        <TextInput 
+        multiline
+        style={styles.input}
+        placeholder="e.g. Asmi" 
+        />
+       <Text>name: {name}, age:{age}</Text>
     </View>
   );
 }
@@ -37,5 +44,12 @@ const styles = StyleSheet.create({
   },
   button:{
     marginTop:20
+  },
+  input:{
+    borderWidth:1,
+    padding:8,
+    width:200,
+    margin:10,
+    borderColor:'green'
   }
 });
