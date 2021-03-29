@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React,{useState} from 'react';
-import { StyleSheet, Text, View,FlatList } from 'react-native';
+import { StyleSheet, Text, View,FlatList,TouchableOpacity } from 'react-native';
 
 // functional component
 export default function App() {
@@ -17,22 +17,31 @@ export default function App() {
    {name:'C',id:9},
    {name:"D",id:10},
  ]);
+
+ const pressHandler=(id)=>{
+   console.log(id);
+  // Since we are depending on our prev state its always preferred to use a function inside setpeople
+  setPeople((prePeople)=>{
+    return prePeople.filter((people)=>people.id!=id);
+  });
+ }
   
   return (
     <View style={styles.container}>
-      {/*  in renderItem we need to destructure item*/}
-      {/* Here we dont need to specify key its already added */}
-      {/* By default it looks for key attribute and adds it as a key, but what if we have some other attribute instead
-      like id, which is usually the case with databases, we need to explicitly tell falt list that used this as the key instead */}
-{/* One benfit of flat list over scroll view is that whenever we refresh in falt list only the components that are visible are refreshed 
-wheereas in scroll view all 100 components if present will be refreshed*/}
+      
+
+    {/* We need to delete that card over which we click on */}
       <FlatList
+      numColumns={2}
       keyExtractor={(item)=> item.id}
       data={people}
       renderItem={({item})=>(
+        <TouchableOpacity onPress={()=>pressHandler(item.id)}>
         <Text style={styles.item}>{item.name}</Text>
+        </TouchableOpacity>
       )}
       />
+      
         
     </View>
   );
@@ -49,9 +58,10 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
   },
   item:{
-    padding:20,
+    padding:30,
     marginTop:30,
     backgroundColor:'pink',
-    fontSize:24
+    fontSize:24,
+    marginRight:10
   }
 });
