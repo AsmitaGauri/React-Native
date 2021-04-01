@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React,{useState} from 'react';
-import { StyleSheet, Text, View,FlatList,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View,FlatList,Alert} from 'react-native';
 import Header from './components/header'
 import ToDoItem from './components/todoItem';
 import AddToDo from './components/addToDo';
@@ -19,13 +19,20 @@ export default function App() {
   };
   
   const addHandler=(text)=>{
-    setTodos((prevTodos)=>{
-      return [
-        {text:text,key:Math.random().toString()},
-        ...prevTodos
-        
-      ]
-    })
+    if(text.length>3){
+      setTodos((prevTodos)=>{
+        return [
+          {text:text,key:Math.random().toString()},
+          ...prevTodos
+          
+        ]
+      })
+    }else{
+      Alert.alert('OOPS!','ToDos must be atleast 2 chars long',[
+        {text:'Okay',onPress:()=>console.log("understood")}
+      ])
+    }
+    
   }
 
   return (

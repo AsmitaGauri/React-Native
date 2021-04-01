@@ -3,14 +3,21 @@ import {StyleSheet,Text,View,TextInput,Button} from 'react-native';
 
 export default function AddToDo({addHandler}){
     const [text,setText]=useState("");
+
+    const addHandlerUtil=()=>{
+        addHandler(text);
+        setText("");
+    }
+
     return(
         <View>
             <TextInput
             style={styles.add}
                 placeholder="Enter To Do"
              onChangeText={(val)=>setText(val)}
+             value={text}
             />
-            <Button title='ADD TODO' color="green" onPress={()=>addHandler(text)}/>
+            <Button title='ADD TODO' color="green" onPress={addHandlerUtil}/>
         </View>       
     );
 }
