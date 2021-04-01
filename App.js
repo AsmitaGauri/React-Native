@@ -1,46 +1,47 @@
 import { StatusBar } from 'expo-status-bar';
 import React,{useState} from 'react';
 import { StyleSheet, Text, View,FlatList,TouchableOpacity } from 'react-native';
-
+import Header from './components/header'
+import ToDoItem from './components/todoItem';
+import AddToDo from './components/addToDo';
 // functional component
 export default function App() {
   
- const [people,setPeople]=useState([
-   {name:"A",id:1},
-   {name:"B",id:2},
-   {name:'C',id:3},
-   {name:"D",id:4},
-   {name:"B",id:5},
-   {name:'C',id:6},
-   {name:"D",id:7},
-   {name:"B",id:8},
-   {name:'C',id:9},
-   {name:"D",id:10},
- ]);
+  const [todos, setTodos] = useState([
+    { text: 'buy coffee', key: '1' },
+    { text: 'create an app', key: '2' },
+    { text: 'play on the switch', key: '3' }]);
 
- const pressHandler=(id)=>{
-   console.log(id);
-  // Since we are depending on our prev state its always preferred to use a function inside setpeople
-  setPeople((prePeople)=>{
-    return prePeople.filter((people)=>people.id!=id);
-  });
- }
+  const pressHandler=(key)=>{
+    setTodos(()=>{
+      return todos.filter((item)=> item.key!=key);
+    })
+  };
   
+  const addHandler=(text)=>{
+    setTodos((prevTodos)=>{
+      return [
+        {text:text,key:Math.random().toString()},
+        ...prevTodos
+        
+      ]
+    })
+  }
+
   return (
     <View style={styles.container}>
-      
+      {/* Header */}
+      <Header/>
+      <View style={styles.content}>
+        <AddToDo addHandler={addHandler}/>
+        <FlatList
+        data={todos}
+        renderItem={({item})=>(
+          <ToDoItem item={item} pressHandler={pressHandler}/>
+        )}
+        />
+      </View>
 
-    {/* We need to delete that card over which we click on */}
-      <FlatList
-      numColumns={2}
-      keyExtractor={(item)=> item.id}
-      data={people}
-      renderItem={({item})=>(
-        <TouchableOpacity onPress={()=>pressHandler(item.id)}>
-        <Text style={styles.item}>{item.name}</Text>
-        </TouchableOpacity>
-      )}
-      />
       
         
     </View>
@@ -52,16 +53,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop:10,
-    paddingHorizontal:30
     // alignItems: 'center',
     // justifyContent: 'center',
+    paddingTop:30
   },
-  item:{
-    padding:30,
-    marginTop:30,
-    backgroundColor:'pink',
-    fontSize:24,
-    marginRight:10
+  content:{
+    padding:20,
   }
 });
